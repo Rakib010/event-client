@@ -25,6 +25,7 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
   signInHref?: string;
   ctaText?: string;
   ctaHref?: string;
+  host?: string;
   onSignInClick?: () => void;
   onCtaClick?: () => void;
 }
@@ -45,6 +46,7 @@ export const Navbar = React.forwardRef<HTMLElement, Navbar01Props>(
       signInHref = "#signin",
       ctaText = "Sign Up",
       ctaHref = "#get-started",
+      host = "Become a Host",
       onSignInClick,
       onCtaClick,
       ...props
@@ -169,6 +171,16 @@ export const Navbar = React.forwardRef<HTMLElement, Navbar01Props>(
 
           {/* Right side */}
           <div className="flex items-center gap-3">
+            <Button
+              size="lg"
+              className=""
+              onClick={(e) => {
+                e.preventDefault();
+                if (onCtaClick) onCtaClick();
+              }}
+            >
+              {host}
+            </Button>
             <Button
               variant="ghost"
               size="sm"
