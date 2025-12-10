@@ -10,6 +10,9 @@ import {
 import { Input } from "@/components/ui/input";
 
 const LoginForm = ({ redirect }: { redirect?: string }) => {
+  
+
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-slate-900">
       <form className="bg-white dark:bg-slate-800 p-8 rounded-xl shadow-md w-full max-w-md">

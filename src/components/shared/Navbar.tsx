@@ -1,211 +1,119 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { useEffect, useState, useRef } from "react";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { NavLink } from "@/types";
-import { LucideMenu } from "lucide-react";
 
-export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
-  logo?: React.ReactNode;
-  logoHref?: string;
-  navigationLinks?: NavLink[];
-  signInText?: string;
-  signInHref?: string;
-  ctaText?: string;
-  ctaHref?: string;
-  host?: string;
-  onSignInClick?: () => void;
-  onCtaClick?: () => void;
-}
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { LucideMenu, LucideX } from "lucide-react";
+import { navigationLinks } from "@/utils/NavbarRole";
 
-//navigation links
-const NavigationLinks: NavLink[] = [
-  { href: "/", label: "Home", active: true },
-  { href: "#explorevent", label: "Explore Event" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
-];
-export const Navbar = React.forwardRef<HTMLElement, Navbar01Props>(
-  (
-    {
-      className,
-      navigationLinks = NavigationLinks,
-      signInText = "Login",
-      signInHref = "#signin",
-      ctaText = "Sign Up",
-      ctaHref = "#get-started",
-      host = "Become a Host",
-      onSignInClick,
-      onCtaClick,
-      ...props
-    },
-    ref
-  ) => {
-    const [isMobile, setIsMobile] = useState(false);
-    const containerRef = useRef<HTMLElement>(null);
-    useEffect(() => {
-      const checkWidth = () => {
-        if (containerRef.current) {
-          const width = containerRef.current.offsetWidth;
-          setIsMobile(width < 768); // 768px is md breakpoint
-        }
-      };
-      checkWidth();
-      const resizeObserver = new ResizeObserver(checkWidth);
-      if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
-      }
-      return () => {
-        resizeObserver.disconnect();
-      };
-    }, []);
+const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-    // Combine refs
-    const combinedRef = React.useCallback(
-      (node: HTMLElement | null) => {
-        containerRef.current = node;
-        if (typeof ref === "function") {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      },
-      [ref]
-    );
-    return (
-      <header
-        ref={combinedRef}
-        className={cn(
-          "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 md:px-6 [&_*]:no-underline",
-          className
-        )}
-        {...(props as any)}
-      >
-        <div className="w-11/12 mx-auto flex h-16  items-center justify-between gap-4">
-          {/* Left side */}
-          <div className="flex items-center gap-2">
-            {/* Mobile menu trigger */}
-            {isMobile && (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    className="group h-9 w-9 hover:bg-accent hover:text-accent-foreground"
-                    variant="ghost"
-                    size="icon"
-                  >
-                    <LucideMenu />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent align="start" className="w-48 p-2">
-                  <NavigationMenu className="max-w-none">
-                    <NavigationMenuList className="flex-col items-start gap-1">
-                      {navigationLinks.map((link, index) => (
-                        <NavigationMenuItem key={index} className="w-full">
-                          <button
-                            onClick={(e) => e.preventDefault()}
-                            className={cn(
-                              "flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer no-underline",
-                              link.active
-                                ? "bg-accent text-accent-foreground"
-                                : "text-foreground/80"
-                            )}
-                          >
-                            {link.label}
-                          </button>
-                        </NavigationMenuItem>
-                      ))}
-                    </NavigationMenuList>
-                  </NavigationMenu>
-                </PopoverContent>
-              </Popover>
-            )}
+  // Check if screen is mobile
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-            {/* Main nav */}
-            <div className="flex items-center gap-6">
-              <button
-                onClick={(e) => e.preventDefault()}
-                className="flex items-center space-x-2 text-primary hover:text-primary/90 transition-colors cursor-pointer"
+  return (
+    <header className="sticky top-0 z-50 w-full bg-white shadow-md font-bold">
+      <div className="w-11/12 mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+        {/* Logo */}
+        <Link href="/" className="text-2xl font-bold text-primary">
+          EventMates
+        </Link>
+
+        {/* Desktop Menu */}
+        {!isMobile && (
+          <nav className="flex items-center gap-6">
+            {navigationLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-gray-700 hover:text-primary px-3 py-2 rounded-md transition-colors"
               >
-                {/*     <div className="text-2xl">hello</div> */}
-                <span className="hidden font-bold text-xl sm:inline-block">
-                  EventMates
-                </span>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        )}
+
+        {/* Right buttons (Desktop) */}
+        {!isMobile && (
+          <div className="flex items-center gap-2">
+            <Link href="/becomeHost">
+              <button className="px-4 py-2 text-sm font-medium bg-orange-400 text-white rounded-md hover:bg-orange-500 transition">
+                Become a Host
               </button>
+            </Link>
 
-              {/* Navigation menu */}
-              {!isMobile && (
-                <NavigationMenu className="flex">
-                  <NavigationMenuList className="gap-1">
-                    {navigationLinks.map((link, index) => (
-                      <NavigationMenuItem key={index}>
-                        <button
-                          onClick={(e) => e.preventDefault()}
-                          className={cn(
-                            "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline",
-                            link.active
-                              ? "bg-accent text-accent-foreground"
-                              : "text-foreground/80 hover:text-foreground"
-                          )}
-                        >
-                          {link.label}
-                        </button>
-                      </NavigationMenuItem>
-                    ))}
-                  </NavigationMenuList>
-                </NavigationMenu>
-              )}
-            </div>
-          </div>
+            <Link href="/login">
+              <button className="px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-100 transition">
+                Login
+              </button>
+            </Link>
 
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            <Button
-              size="lg"
-              className=""
-              onClick={(e) => {
-                e.preventDefault();
-                if (onCtaClick) onCtaClick();
-              }}
-            >
-              {host}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-sm font-medium hover:bg-accent hover:text-accent-foreground"
-              onClick={(e) => {
-                e.preventDefault();
-                if (onSignInClick) onSignInClick();
-              }}
-            >
-              {signInText}
-            </Button>
-            <Button
-              size="sm"
-              className="text-sm font-medium px-4 h-9 rounded-md shadow-sm"
-              onClick={(e) => {
-                e.preventDefault();
-                if (onCtaClick) onCtaClick();
-              }}
-            >
-              {ctaText}
-            </Button>
+            <Link href="/register">
+              <button className="px-4 py-2 text-sm font-medium bg-green-600 text-white rounded-md ">
+                Sign Up
+              </button>
+            </Link>
           </div>
+        )}
+
+        {/* Mobile menu button */}
+        {isMobile && (
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="text-gray-700 focus:outline-none"
+          >
+            {isMobileMenuOpen ? (
+              <LucideX size={24} />
+            ) : (
+              <LucideMenu size={24} />
+            )}
+          </button>
+        )}
+      </div>
+
+      {/* Mobile Menu */}
+      {isMobile && isMobileMenuOpen && (
+        <div className="md:hidden bg-white shadow-md border-t">
+          <nav className="flex flex-col gap-2 p-4">
+            {navigationLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-gray-700 px-3 py-2 rounded-md hover:bg-gray-100"
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            <Link href="/becomeHost">
+              <button className="w-full px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                Become a Host
+              </button>
+            </Link>
+
+            <Link href="/login">
+              <button className="w-full px-4 py-2 text-sm font-medium border border-gray-300 rounded-md hover:bg-gray-100 transition">
+                Login
+              </button>
+            </Link>
+
+            <Link href="/register">
+              <button className="w-full px-4 py-2 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+                Sign Up
+              </button>
+            </Link>
+          </nav>
         </div>
-      </header>
-    );
-  }
-);
-Navbar.displayName = "Navbar";
+      )}
+    </header>
+  );
+};
+
+export default Navbar;
