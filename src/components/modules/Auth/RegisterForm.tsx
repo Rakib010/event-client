@@ -1,6 +1,6 @@
 "use client";
 
-import InputFieldError from "@/components/shared/InputFieldError";
+
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -9,11 +9,8 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 
 const RegisterForm = () => {
-  const [state, setState] = useState({});
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl my-10 border">
       <h2 className="text-2xl font-bold text-center mb-6">Create an Account</h2>
@@ -30,7 +27,6 @@ const RegisterForm = () => {
                 placeholder="John Doe"
                 className="border-gray-300 focus:ring-2 focus:ring-blue-500"
               />
-              <InputFieldError field="name" state={state} />
             </Field>
 
             {/* Address */}
@@ -43,7 +39,6 @@ const RegisterForm = () => {
                 placeholder="123 Main St"
                 className="border-gray-300 focus:ring-2 focus:ring-blue-500"
               />
-              <InputFieldError field="address" state={state} />
             </Field>
 
             {/* Phone */}
@@ -56,7 +51,6 @@ const RegisterForm = () => {
                 placeholder="00101011"
                 className="border-gray-300 focus:ring-2 focus:ring-blue-500"
               />
-              <InputFieldError field="number" state={state} />
             </Field>
 
             {/* Email */}
@@ -69,7 +63,6 @@ const RegisterForm = () => {
                 placeholder="m@example.com"
                 className="border-gray-300 focus:ring-2 focus:ring-blue-500"
               />
-              <InputFieldError field="email" state={state} />
             </Field>
 
             {/* Password (centered on large screens) */}
@@ -82,7 +75,6 @@ const RegisterForm = () => {
                 placeholder="Enter your password"
                 className="border-gray-300 focus:ring-2 focus:ring-blue-500 w-full md:w-1/2"
               />
-              <InputFieldError field="password" state={state} />
             </Field>
           </div>
 
