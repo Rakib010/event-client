@@ -23,7 +23,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   async function load() {
     setLoading(true);
     try {
-      const res = await api.get("/auth/me"); // returns verified user
+      const res = await api.get("/user/get-me"); 
       setUser(res.data);
     } catch {
       setUser(null);

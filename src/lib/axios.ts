@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
 export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
-    withCredentials: true, // sends cookies automatically
+    withCredentials: true,
 });
 
 // Auto-refresh interceptor
@@ -30,7 +31,7 @@ api.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                await api.post("/auth/refresh"); // backend sets new accessToken cookie
+                await api.post("/auth/refresh-token"); // backend sets new accessToken cookie
                 isRefreshing = false;
                 processQueue(null, true);
                 return api(original);

@@ -8,6 +8,7 @@ export const config = {
 
 export function middleware(req: NextRequest) {
     const token = req.cookies.get("accessToken")?.value;
+    console.log(token);
     const path = req.nextUrl.pathname;
 
     if (!token) {
