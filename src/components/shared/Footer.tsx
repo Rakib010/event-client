@@ -57,10 +57,10 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Platform */}
+          {/* Quick Links */}
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Platform
+              Quick Links
             </h3>
             <ul className="space-y-3">
               <li>
@@ -69,45 +69,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/hosts" className="text-sm hover:text-orange-400">
-                  Find Hosts
+                <Link href="/becomeHost" className="text-sm hover:text-orange-400">
+                  Become a Host
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/how-it-works"
-                  className="text-sm hover:text-orange-400"
-                >
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="text-sm hover:text-orange-400">
-                  Pricing
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Company
-            </h3>
-            <ul className="space-y-3">
               <li>
                 <Link href="/about" className="text-sm hover:text-orange-400">
                   About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/careers" className="text-sm hover:text-orange-400">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="text-sm hover:text-orange-400">
-                  Blog
                 </Link>
               </li>
               <li>
@@ -118,22 +86,12 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Support */}
+          {/* Legal */}
           <div>
             <h3 className="text-sm font-semibold text-white uppercase tracking-wider mb-4">
-              Support
+              Legal
             </h3>
             <ul className="space-y-3">
-              <li>
-                <Link href="/help" className="text-sm hover:text-orange-400">
-                  Help Center
-                </Link>
-              </li>
-              <li>
-                <Link href="/safety" className="text-sm hover:text-orange-400">
-                  Safety Guidelines
-                </Link>
-              </li>
               <li>
                 <Link href="/terms" className="text-sm hover:text-orange-400">
                   Terms of Service

@@ -63,7 +63,7 @@ const Navbar = () => {
       return [
         { label: "Explore Events", href: "/events" },
         { label: "My Events (Hosted)", href: "/dashboard" },
-        { label: "Create Event", href: "/events/create" },
+        { label: "Create Event", href: "/createEvent" },
         { label: "Profile", href: `/profile` },
       ];
     }

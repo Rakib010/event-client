@@ -23,9 +23,19 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   async function load() {
     setLoading(true);
     try {
-      const res = await api.get("/user/get-me"); 
-      setUser(res.data);
-    } catch {
+      const res = await api.get("/user/get-me");
+      // Backend returns { success, statusCode, message, data }
+      // The actual user data is in res.data.data
+      const userData = res.data.data;
+
+      // Map backend user data to frontend user structure
+      setUser({
+        userId: userData._id,
+        role: userData.role,
+        email: userData.email,
+      });
+    } catch (error) {
+      console.error("Failed to load user:", error);
       setUser(null);
     } finally {
       setLoading(false);

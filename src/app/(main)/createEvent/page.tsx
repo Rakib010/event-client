@@ -1,9 +1,13 @@
 import React from 'react'
 
-function page() {
+import EventForm from "@/components/modules/event/EventForm";
+
+function CreateEventPage() {
   return (
-    <div>page</div>
-  )
+    <div>
+      <EventForm />
+    </div>
+  );
 }
 
-export default page
+export default CreateEventPage;
